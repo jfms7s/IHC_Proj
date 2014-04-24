@@ -1,0 +1,118 @@
+html,body,#LateralFilterFrame,{
+  height:  100%;
+}
+
+#LateralFilterFrame{
+  background: linear-gradient(to bottom, #3c3c3c 0, #222 100%) repeat-x;
+  padding-right: 0px;
+  border-right: solid 1px #000000;
+}
+#BookFilterFrame{
+  margin-bottom: 20px;
+  background-color: darkgray;
+  border-bottom: solid 1px dimgray;
+}
+
+#TopNavBar{
+  border-radius: 0px;
+  margin-bottom: 0px;
+}
+#TopNavBar{
+  input,button{
+    margin-left: 10px;
+    height: 30px;
+    padding-top:4px ;
+  }
+}
+
+#LanguageFilterBar div,#CategoryFilterBar div{
+  width: 100%;
+  text-align: center;
+}
+#LateralFilterFrame{
+  border-radius: 0px;
+  padding-left: 0px;
+
+}
+#LanguageFilterBar input[type=checkbox],#CategoryFilterBar input[type=checkbox]{
+  display: none;
+}
+#LangFilterInput,#CatFilterInput{
+  width: 94%;
+  margin:0 3%;
+  height: 26px;
+}
+
+#AddBookInput,#ManageBookInput{
+  margin-right: 8px;
+  width: auto;
+  height: 26px;
+  float: left;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 2px 8px;
+}
+
+#BookFilterInput{
+  height: 26px;
+  width: 20%;
+  margin: 8px 0;
+  float: right;
+}
+#LanguageFilterBar input + label,#CategoryFilterBar input + label{
+  background-color: darkgray;
+}
+
+#LanguageFilterBar label:hover,#CategoryFilterBar label:hover{
+  background-color: gray;
+}
+
+#LanguageFilterBar input:checked + label,#CategoryFilterBar input:checked + label{
+  background-color: dimgray;
+}
+
+#LanguageFilterBar label,#CategoryFilterBar label{
+  border-radius: 0px;
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-size:15px;
+  margin-bottom: 0px;
+
+  -webkit-user-select: none; /* Chrome/Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+ */
+
+  /* Rules below not implemented in browsers yet */
+  -o-user-select: none;
+  user-select: none;
+}
+
+.spinner {
+  width: 30px;
+  height: 30px;
+  background-color: #333;
+
+  margin: 100px auto;
+  -webkit-animation: rotateplane 1.2s infinite ease-in-out;
+  animation: rotateplane 1.2s infinite ease-in-out;
+}
+
+@-webkit-keyframes rotateplane {
+  0% { -webkit-transform: perspective(120px) }
+  50% { -webkit-transform: perspective(120px) rotateY(180deg) }
+  100% { -webkit-transform: perspective(120px) rotateY(180deg)  rotateX(180deg) }
+}
+
+@keyframes rotateplane {
+  0% {
+    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    -webkit-transform: perspective(120px) rotateX(0deg) rotateY(0deg)
+  } 50% {
+      transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+      -webkit-transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg)
+    } 100% {
+        transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+        -webkit-transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+      }
+}
