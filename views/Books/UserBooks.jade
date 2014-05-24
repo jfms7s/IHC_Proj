@@ -1,0 +1,53 @@
+table.table.table-striped
+    thead
+        tr
+            th Titulo
+            th Descrição
+            th Data Adicionado
+            th Autor
+            th Capa
+            th
+    tbody
+        -Books.forEach(function(entry) {
+            tr(id=entry.id)
+                td #{entry.Title}
+                td #{entry.Description}
+                td #{entry.DateAdded.getDate()+"/"+entry.DateAdded.getMonth()+"/"+entry.DateAdded.getFullYear()}
+                td #{entry.OriginalAuthor}
+                td #{entry.ImgLink}
+                td
+                    button.btn.btn-warning.EditBook edit
+                    button.btn.btn-danger.RemoveBook remove
+        -});
+
+.form-group
+    button.btn.btn-info#PreviousPartialView(type='Voltar') Guardar
+    button.btn.btn-default#ClosePartialView(type='button', data-dismiss='modal') Close
+
+script.
+    $(function(){
+        $( "#PreviousPartialView" ).on( "click", function() {
+            $( "#ClosePartialView" ).trigger( "click" );
+            $( "#ManageBookInput" ).trigger( "click" );
+        });
+        $('.EditBook').click(function(){
+
+            console.log($(this).closest('tr').attr("id"));
+            $('#PopupSpinner').show();
+
+            $.get( "Books/Edit/"+$(this).closest('tr').attr("id"), function( data ) {
+                $('#PopupSpinner').hide();
+                $('.modal-dialog').removeClass("modal-lg").removeClass("modal-sm").removeClass("modal-md");
+                $('#PopupContent').html( data ).removeClass('hidden');
+            });
+
+        });
+        $('.RemoveBook').click(function(){
+            $('#PopupContent').hide();
+            $('#PopupSpinner').show();
+            $('.modal-dialog').removeClass("modal-lg").removeClass("modal-sm").removeClass("modal-md");
+            window.location = "Books/remove/"+$(this).closest('tr').attr("id");
+        });
+
+    });
+

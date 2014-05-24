@@ -1,0 +1,17 @@
+extends ../layout
+
+block content
+    #LeftButtonFrame.col-lg-1
+        span#LeftButton.btn.btn-default.glyphicon.glyphicon-chevron-left
+
+    #BookContentFrame.col-lg-10
+        #RightPage.col-lg-6 #{RightPage}
+
+        #LeftPage.col-lg-6 #{LeftPage}
+
+    #RightButtonFrame.col-lg-1
+        span#RightButton.btn.btn-default.glyphicon.glyphicon-chevron-right
+
+    script(src="/javascripts/IndexClientMVC.js")
+
+    script.

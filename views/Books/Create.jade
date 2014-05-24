@@ -1,2 +1,27 @@
-| Create
+form(role='AddBook',action='Books/create',method='POST',enctype='multipart/form-data')
+    .form-group
+        label(for='InputTitle') Title
+        input.form-control#InputTitle(name='Title',placeholder='Titulo',type='text',required)
+    .form-group
+        label(for='InputDescription') Descriçao
+        textarea.form-control#InputDescription(name='Description',placeholder='Descriçao',required)
+    .form-group
+        label(for='InputAuthor') Autor(opcional)
+        input.form-control#InputAuthor(name='Author',placeholder='Autor')
+    .form-group
+        label(for='LanguageTitle') Lingua
+        select.form-control#LanguageTitle(name='Language',required)
+            option(value=-1)
+            -for(var i=0;i<Language.length;i++){
+                option(value=Language[i].id) #{Language[i].Name}
+            -}
+    .form-group
+        label(for='InputTitle') Ficheiro
+        input.form-control#InputTitle(name='File',placeholder='Ficheiro',type='File',required)
+    .form-group
+        label(for='InputTitle') URL Imagem de Capa(Opcional)
+        input.form-control#InputTitle(name='UrlCover',placeholder='URL',type='text')
 
+    .form-group
+        button.btn.btn-info(type='submit') Guardar
+        button.btn.btn-default(type='button', data-dismiss='modal') Close

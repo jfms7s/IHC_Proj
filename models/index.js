@@ -3,6 +3,8 @@ module.exports.DefineSchema = function (db, models,next) {
     models.User = db.define('User', {
         //id              : { type: 'number'},
         Username        : { type: 'text', size: 100,unique: true ,required:true},
+        Name            : { type: 'text', size: 100,unique: false ,required:true},
+        Surname         : { type: 'text', size: 100,unique: false ,required:true},
         Password        : { type: 'text', size: 100,required:true},
         Email           : { type: 'text', size: 200,required:true},
 
@@ -16,8 +18,11 @@ module.exports.DefineSchema = function (db, models,next) {
         Title           : { type: 'text', size: 200,unique: false ,required:true},
         Description     : { type: 'text', size: 500,required:true},
         FileType        : { type: 'text', size: 10 ,required:true},
+        DateAdded       : { type: "date", time: true },
         ImgLink         : { type: 'text', size: 300,required:false},
-        OriginalAuthor  : { type: 'text', size: 300,required:false}
+        OriginalAuthor  : { type: 'text', size: 300,required:false},
+        FileStoreName   : { type: 'text', size: 200,unique: false ,required:false},
+        FileName        : { type: 'text', size: 200,unique: false ,required:false}
     });
 
     models.Category = db.define('Category', {
@@ -28,18 +33,18 @@ module.exports.DefineSchema = function (db, models,next) {
 
     models.Language = db.define('Language', {
         //id              : { type: 'number'},
-        Name            : { type: 'text', size: 200,unique: false ,required:true},
-        ImgUrl          : { type: 'text', size: 500,required:false},
-        Code            : { type: 'text', size: 100,required:true}
+        Name            : { type: 'text', size: 200,unique: false ,required: true},
+        ImgUrl          : { type: 'text', size: 500,required: false},
+        Code            : { type: 'text', size: 100,required: true}
     });
 
     models.Comment = db.define('Comment', {
         //id              : { type: 'number'},
-        Description     : { type: 'text', size: 300,unique: false ,required:true},
-        Content         : { type: 'text', size: 500,unique: false ,required:true},
-        StartPos        : { type: 'number',unique: false ,required:true},
-        EndPos          : { type: 'number',unique: false ,required:true},
-        Rate            : { type: 'number',unique: false ,required:true ,defaultValue:0}
+        Description     : { type: 'text', size: 300,unique: false ,required: true},
+        Content         : { type: 'text', size: 500,unique: false ,required: true},
+        StartPos        : { type: 'number',unique: false ,required: true},
+        EndPos          : { type: 'number',unique: false ,required: true},
+        Rate            : { type: 'number',unique: false ,required: true ,defaultValue: 0}
     });
 
     models.Translation = db.define('Translation', {

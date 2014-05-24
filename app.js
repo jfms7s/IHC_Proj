@@ -7,6 +7,7 @@ var express = require('express');
 var http = require('http');
 var path = require('path');
 var orm = require('orm');
+var multer = require('multer');
 
 var app = express();
 
@@ -15,6 +16,15 @@ app.use(orm.express("postgres://postgres:postgres@127.0.0.1:5432/ReBook", {
     define: require('./models').DefineSchema
 }));
 
+//Define application Vars
+app.locals({
+    AppVars: {
+        Title: 'ReBook',
+        UploadFolder:__dirname + '/uploads/'
+    }
+});
+
+
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
@@ -22,19 +32,13 @@ app.set('view engine', 'jade');
 app.use(express.favicon(__dirname + '/public/favicon.ico'));
 app.use(express.json());
 app.use(express.urlencoded());
+app.use(multer({ dest: app.locals.AppVars.UploadFolder }));
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
 app.use(app.router);
 app.use(require('less-middleware')({ src: path.join(__dirname, 'public') }));
 app.use(express.static(path.join(__dirname, 'public')));
-
-//Define application Vars
-app.locals({
-    AppVars: {
-        Title: 'ReBook'
-    }
-});
 
 // development only
 if ('development' == app.get('env')) {

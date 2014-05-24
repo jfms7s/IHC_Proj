@@ -1,0 +1,8 @@
+form(role='Login',action='Users/Login',method='POST')
+    .form-group
+        input.form-control(name='Username',placeholder='Username',type='text',required)
+    .form-group
+        input.form-control(name='Password',placeholder='Password',type='password',required)
+    .form-group
+        button.btn.btn-info(type='submit') Login
+        button.btn.btn-default(type='button', data-dismiss='modal') Close

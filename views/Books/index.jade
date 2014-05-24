@@ -1,49 +1,57 @@
 extends ../layout
 
 block content
-    .col-sm-2#LateralFilterFrame
-        ul.nav.nav-pills.nav-stacked.navbar-inverse#CategoryFilterBar
-        ul.nav.nav-pills.nav-stacked.navbar-inverse#LanguageFilterBar
-    .col-sm-10#BookFilterFrame
-        span.btn.btn-default.btn-lg#AddBookInput(title='Upload de Livros',data-toggle='modal', data-target='#Popup')
-            span.glyphicon.glyphicon-cloud-upload
-        span.btn.btn-default.btn-lg#ManageBookInput(title='Gerir Meus Livros',data-toggle='modal', data-target='#Popup')
-            span.glyphicon.glyphicon-cog
-        input.form-control#BookFilterInput(type='search',placeholder='Pesquisa Livro...')/
-    .col-sm-10#BookFilterBar Listagem de livros
 
+    .col-sm-2#LateralFilterFrame
+        #CategoryFrame
+            ul.nav.nav-pills.nav-stacked.navbar-inverse#CategorySearchFrame
+                li.navbar-header
+                    div.navbar-brand Categorias
+                li
+                    input.form-control#CatFilterInput(type='search',placeholder='Pesquisa Categoria...')
+            #CategoryFilter
+                ul.nav.nav-pills.nav-stacked.navbar-inverse.CustomScroll#CategoryFilterBar
+        #LanguageFrame
+            ul.nav.nav-pills.nav-stacked.navbar-inverse#LanguageSearchFrame
+                li.navbar-header
+                    div.navbar-brand Linguas
+                li
+                    input.form-control#LangFilterInput(type='search',placeholder='Pesquisa Lingua...')
+            #LanguageFilter
+                ul.nav.nav-pills.nav-stacked.navbar-inverse.CustomScroll#LanguageFilterBar
+
+    .col-sm-10#BookFilterFrame
+        -if(UserData!=null){
+            span.btn.btn-default.btn-lg#AddBookInput(title='Upload de Livros',data-toggle='modal', data-target='#Popup')
+                span.glyphicon.glyphicon-cloud-upload
+            span.btn.btn-default.btn-lg#ManageBookInput(title='Gerir Meus Livros',data-toggle='modal', data-target='#Popup')
+                span.glyphicon.glyphicon-cog
+        -}
+        input.form-control#BookFilterInput(type='search',placeholder='Pesquisa Livro...')/
+    #BooksFrame.col-sm-10
+        #BookFilterBar.CustomScroll Listagem de livros
 
     script#CategoryFilterBar_template(type="text/template")
-        li.navbar-header
-            div.navbar-brand Categorias
-        li
-            input.form-control#CatFilterInput(type='search',placeholder='Pesquisa Categoria...')
         <% _.each(collection, function(element) { %>
         li.active
-            |<input type="checkbox" name="checkbox" id="cat_<%= element.id %>" value="<%= element.id %>">
+            |<input type="checkbox" name="checkbox" id="cat_<%= element.id %>" value="<%= element.id %>"  <%= element.Selected==true?"checked":"" %>>
             <label class="label label-default" for="cat_<%= element.id %>" title="<%= element.Description %>"><%= element.Title %></label>
         <% }); %>
 
     script#LanguageFilterBar_template(type="text/template")
-        li.navbar-header
-            div.navbar-brand Linguas
-        li
-            input.form-control#LangFilterInput(type='search',placeholder='Pesquisa Lingua...')
         <% _.each(collection, function(element) { %>
         li.active
-            <input type="checkbox" name="checkbox" id="lang_<%= element.id %>" value="<%= element.id %>">
+            <input type="checkbox" name="checkbox" id="lang_<%= element.id %>" value="<%= element.id %>" <%= element.Selected==true?"checked":"" %>>
             <label class="label label-default" for="lang_<%= element.id %>"><%= element.Name %></label>
         <% }); %>
 
     script#BookFilterBar_template(type="text/template")
         <% _.each(collection, function(element) { %>
         .col-md-2
-            a.thumbnail(href='#')
-                img(data-src='holder.js/100%x180', alt='100%x180', src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMzQiIGhlaWdodD0iMTgwIj48cmVjdCB3aWR0aD0iMTM0IiBoZWlnaHQ9IjE4MCIgZmlsbD0iI2VlZSI+PC9yZWN0Pjx0ZXh0IHRleHQtYW5jaG9yPSJtaWRkbGUiIHg9IjY3IiB5PSI5MCIgc3R5bGU9ImZpbGw6I2FhYTtmb250LXdlaWdodDpib2xkO2ZvbnQtc2l6ZToxMnB4O2ZvbnQtZmFtaWx5OkFyaWFsLEhlbHZldGljYSxzYW5zLXNlcmlmO2RvbWluYW50LWJhc2VsaW5lOmNlbnRyYWwiPjEzNHgxODA8L3RleHQ+PC9zdmc+', style='height: 180px; width: 100%; display: block;')
-                <%= element.Title %>
+            <a class='thumbnail' href='/Books/Get/<%= element.id %>'><img alt='Sem Capa' src='<%= element.ImgLink %>' style='height: 180px; width: 100%; display: block;'></img><%= element.Title %></a>
         <% }); %>
 
-    script(src="/javascripts/ClientMVC.js")
+    script(src="/javascripts/IndexClientMVC.js")
 
     script.
         $(function(){
@@ -57,23 +65,45 @@ block content
             });
             $('#ManageBookInput').click(function(){
                 $('#PopupLabel').html('Gerir Livros');
-                $.get( "Books/Edit", function( data ) {
+                $('.modal-dialog').addClass("modal-lg");
+                $.get( "Books/GetUserBooks", function( data ) {
                     $('#PopupSpinner').hide();
                     $('#PopupContent').html( data ).removeClass('hidden');
                 });
 
             });
+
             $('#LoginInput').click(function(){
                 $('#PopupLabel').html('Login');
                 $('.modal-dialog').addClass("modal-sm");
-                $.get( "Users/get", function( data ) {
+                $.get( "Users/Login", function( data ) {
                     $('#PopupSpinner').hide();
                     $('#PopupContent').html( data ).removeClass('hidden');
                 });
             });
+
+            $('#RegisterInput').click(function(){
+                $('#PopupLabel').html('Registo');
+                $('.modal-dialog').addClass("modal-md");
+                $.get( "Users/create", function( data ) {
+                    $('#PopupSpinner').hide();
+                    $('#PopupContent').html( data ).removeClass('hidden');
+                });
+            });
+            $('#EditUser').click(function(){
+                $('#PopupLabel').html('Editar Perfile');
+                $('.modal-dialog').addClass("modal-md");
+                $.get( "Users/Edit", function( data ) {
+                $('#PopupSpinner').hide();
+                    $('#PopupContent').html( data ).removeClass('hidden');
+                });
+            });
+
             $('#Popup').on('hidden.bs.modal', function (e) {
-                $('.modal-dialog').removeClass("modal-lg").removeClass("modal-sm");
+                $('.modal-dialog').removeClass("modal-lg").removeClass("modal-sm").removeClass("modal-md");
                 $('#PopupSpinner').show();
                 $('#PopupContent').addClass('hidden');
-            })
+            });
+
+            $('.CustomScroll').niceScroll();
         });

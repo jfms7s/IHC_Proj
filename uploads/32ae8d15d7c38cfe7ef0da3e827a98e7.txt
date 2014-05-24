@@ -1,0 +1,4 @@
+BPMN
+Naming convention
+Event = substantivo+Verbo no passado ex. encomenda recebida
+Task = Verbo Presente+Subst./Explicaçao

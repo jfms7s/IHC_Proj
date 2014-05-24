@@ -1,0 +1,9 @@
+var epubParser = require('epub-parser');
+var epubFullPath = 'C:\Users\Joao\Downloads\mymedia_lite-20130621.epub';
+epubParser.open(epubFullPath, function (err, epubData) {
+
+    if(err) return console.log(err);
+    console.log(epubData.easy);
+    console.log(epubData.raw.json.ncx);
+
+});

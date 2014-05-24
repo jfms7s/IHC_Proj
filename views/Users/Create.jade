@@ -1,3 +1,46 @@
-//
-   Created by Joao on 24/04/2014.
+form(role='Register',action='Users/Create',method='POST')
+    .form-group
+        label(for='InputUsername') Username
+        input.form-control#InputUsername(name='Username',placeholder='Username',type='text',Value=User.Username,required)
+    .form-group
+        label(for='InputPassword') Password
+        input.form-control#InputPassword(name='Password',placeholder='Password',type='password',required)
+    .form-group
+        label(for='ReInputPassword') Verifique Password
+        input.form-control#ReInputPassword(name='RePassword',placeholder='Password',type='password',required)
+    .form-group
+        label(for='InputFirst') Nome
+        input.form-control#InputFirst(name='Name',placeholder='Primeiro',Value=User.Name,type='text',required)
+    .form-group
+        input.form-control#InputSurname(name='Surname',placeholder='Ultimo',Value=User.Surname,,type='text',required)
+    .form-group
+        label(for='InputBday') Aniversario
+        input.form-control#InputBday(name='Bday',placeholder='Data',Value=User.Birthday,type='text')
+    .form-group
+        label(for='InputEmail') Email
+        input.form-control#InputEmail(name='Email',placeholder='Email',Value=User.Email,type='text',required)
+    .form-group
+        label Sexo
+        div
+            label.checkbox-inline
+                -if(User.Sex=='M'){
+                input#SexMasc(type='radio',Name='Sex',value='0',checked)
+                -}else{
+                input#SexMasc(type='radio',Name='Sex',value='0')
+                -}
+                | Masculino
+            label.checkbox-inline
+                -if(User.Sex=='F'){
+                input#SexFem(type='radio',Name='Sex',value='1',checked)
+                -}else{
+                input#SexFem(type='radio',Name='Sex',value='1')
+                -}
+                | Feminino
+    .form-group
+        button.btn.btn-info(type='submit') Registo
+        button.btn.btn-default(type='button', data-dismiss='modal') Close
 
+    script.
+        $(function(){
+            $('#InputBday').datepicker();
+        });

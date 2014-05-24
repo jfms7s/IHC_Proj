@@ -1,3 +1,36 @@
-input
+form(role='EditBook',action='Books/Edit',method='POST',enctype='multipart/form-data')
+    input(type='hidden',value=Book.id,name='id')
+    .form-group
+        label(for='InputTitle') Title
+        input.form-control#InputTitle(name='Title',placeholder='Titulo',type='text',value=Book.Title,required)
+    .form-group
+        label(for='InputDescription') Descriçao
+        textarea.form-control#InputDescription(name='Description',placeholder='Descriçao',required) #{Book.Description}
+    .form-group
+        label(for='InputAuthor') Autor(opcional)
+        input.form-control#InputAuthor(type='text',name='Author',value=Book.OriginalAuthor,placeholder='Autor')
+    .form-group
+        label(for='LanguageTitle') Lingua
+        select.form-control#LanguageTitle(name='Language',required)
+            option(value=-1)
+            -for(var i=0;i<Language.length;i++){
+                -if(Book.language_id==Language[i].id){
+                    option(value=Language[i].id,selected) #{Language[i].Name}
+                -}else{
+                    option(value=Language[i].id) #{Language[i].Name}
+                -}
 
+            -}
+    .form-group
+        label(for='InputTitle') URL Imagem de Capa(Opcional)
+        input.form-control#InputTitle(name='UrlCover',placeholder='URL',value=Book.ImgLink,type='text')
 
+    .form-group
+        button.btn.btn-info(type='submit') Guardar
+        button.btn.btn-success#PreviousPartialView(type='button') Voltar
+        button.btn.btn-default#ClosePartialView(type='button', data-dismiss='modal') Close
+
+    script.
+        $( "#PreviousPartialView" ).on( "click", function() {
+            $( "#ManageBookInput" ).trigger( "click" );
+        });
