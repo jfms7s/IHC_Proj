@@ -98,9 +98,9 @@ module.exports = function(app, prefix){
     });
 
     //GET BOOK
-    app.get(prefix+'/get/:id', function(req, res){
+    app.get(prefix+'/get/', function(req, res){
 
-        req.models.Book.get(req.params.id,function(err,Book){
+        req.models.Book.get(req.query.id,function(err,Book){
             if (err) {
                 return console.log(err);
             }
@@ -121,14 +121,39 @@ module.exports = function(app, prefix){
 
         });
 
+    });
+
+    app.post(prefix+'/get', function(req, res){
+
+
+        var id = req.body.id;
+        var startPos = parseInt(req.body.StartPos);
+        var padding = parseInt(req.body.Padding);
+
+        console.log(id);
+
+        req.models.Book.get(req.body.id,function(err,Book){
+            if (err) {
+                return console.log(err);
+            }
+
+            fs.readFile(app.locals.AppVars.UploadFolder+Book.FileName, 'utf8', function (err,data) {
+                if (err) {
+                    return console.log(err);
+                }
+                res.send([{Content:data.substring(startPos,startPos+padding),StartPos:startPos,EndPos:startPos+padding},{Content:data.substring(startPos+padding,startPos+padding*2),StartPos:startPos+padding,EndPos:startPos+padding*2}]);
+
+            });
+
+
+        });
 
     });
 
+
     //GET BOOKAll
     app.post(prefix+'/GetAll', function(req, res){
-        console.log(req.body.Filter);
-        console.log(req.body.Language);
-        console.log(req.body.Category);
+
         var cat = new Array();
         var lang = new Array();
 
@@ -158,13 +183,12 @@ module.exports = function(app, prefix){
 
         }
 
-
         req.models.Book.all(function(err,result){
             res.send(result);
         });
     });
 
-    //EDIT
+    //removes
     app.get(prefix+'/remove/:id', function(req, res){
         req.models.Book.get(req.params.id,function(err,Book){
             //TODO remover comentarios e traduçoes

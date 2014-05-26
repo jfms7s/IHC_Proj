@@ -206,7 +206,4 @@ $(function(){
         book_view.FilterChange(this);
     });
 
-
-
-
   });

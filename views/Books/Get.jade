@@ -1,17 +1,69 @@
 extends ../layout
 
 block content
-    #LeftButtonFrame.col-lg-1
-        span#LeftButton.btn.btn-default.glyphicon.glyphicon-chevron-left
+    #MainFrame
 
-    #BookContentFrame.col-lg-10
-        #RightPage.col-lg-6 #{RightPage}
+    script#Book_template(type="text/template")
+        #LeftButtonFrame.col-lg-1
+            button#LeftButton.btn.btn-default.glyphicon.glyphicon-chevron-left
+        #BookContentFrame.col-lg-10
+            #RightPage.col-lg-6 <%= collection[0].Content %>
+            #LeftPage.col-lg-6 <%= collection[1].Content %>
+        #RightButtonFrame.col-lg-1
+            button#RightButton.btn.btn-default.glyphicon.glyphicon-chevron-right
 
-        #LeftPage.col-lg-6 #{LeftPage}
-
-    #RightButtonFrame.col-lg-1
-        span#RightButton.btn.btn-default.glyphicon.glyphicon-chevron-right
-
-    script(src="/javascripts/IndexClientMVC.js")
+    script(src="/javascripts/BookClientMVC.js")
 
     script.
+        var Selected_Text;
+
+        function makeEditableAndHighlight(colour) {
+            var range, sel = window.getSelection();
+            if (sel.rangeCount && sel.getRangeAt) {
+                range = sel.getRangeAt(0);
+            }
+            document.designMode = "on";
+            if (range) {
+                sel.removeAllRanges();
+                sel.addRange(range);
+            }
+            // Use HiliteColor since some browsers apply BackColor to the whole block
+            if (!document.execCommand("HiliteColor", false, colour)) {
+                document.execCommand("BackColor", false, colour);
+            }
+            document.designMode = "off";
+        }
+        function highlight(colour) {
+            var range, sel;
+            if (window.getSelection) {
+                // IE9 and non-IE
+                try {
+                    if (!document.execCommand("BackColor", false, colour)) {
+                        makeEditableAndHighlight(colour);
+                    }
+                } catch (ex) {
+                    makeEditableAndHighlight(colour)
+                }
+            } else if (document.selection && document.selection.createRange) {
+                // IE <= 8 case
+                range = document.selection.createRange();
+                range.execCommand("BackColor", false, colour);
+            }
+        }
+
+
+        $(function(){
+            $("#DropDown").mouseleave(function(){$(this).css({display:'none'});});
+            $("#DropDown").mouseup(function(){
+                $(this).css({display:'none'});
+                highlight("Yellow");
+            });
+        });
+
+
+
+    ul.dropdown-menu#DropDown(role='menu', aria-labelledby='dropdownMenu3')
+        li(role='presentation')
+            a(role='menuitem', tabindex='-1', href='#') Adicionar Comentario
+        li(role='presentation')
+            a(role='menuitem', tabindex='-1', href='#') Adicionar Traduçao

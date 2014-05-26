@@ -25,7 +25,7 @@ block content
             span.btn.btn-default.btn-lg#AddBookInput(title='Upload de Livros',data-toggle='modal', data-target='#Popup')
                 span.glyphicon.glyphicon-cloud-upload
             span.btn.btn-default.btn-lg#ManageBookInput(title='Gerir Meus Livros',data-toggle='modal', data-target='#Popup')
-                span.glyphicon.glyphicon-cog
+                span.glyphicon.glyphicon-pencil
         -}
         input.form-control#BookFilterInput(type='search',placeholder='Pesquisa Livro...')/
     #BooksFrame.col-sm-10
@@ -48,7 +48,7 @@ block content
     script#BookFilterBar_template(type="text/template")
         <% _.each(collection, function(element) { %>
         .col-md-2
-            <a class='thumbnail' href='/Books/Get/<%= element.id %>'><img alt='Sem Capa' src='<%= element.ImgLink %>' style='height: 180px; width: 100%; display: block;'></img><%= element.Title %></a>
+            <a class='thumbnail' href='/Books/Get/?id=<%= element.id %>'><img alt='Sem Capa' src='<%= element.ImgLink %>' style='height: 180px; width: 100%; display: block;'></img><%= element.Title %></a>
         <% }); %>
 
     script(src="/javascripts/IndexClientMVC.js")

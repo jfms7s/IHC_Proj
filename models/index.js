@@ -56,15 +56,20 @@ module.exports.DefineSchema = function (db, models,next) {
     });
 
     models.User.hasMany('Books' ,models.Book, {},{ reverse: 'Owner'});
-    models.User.hasMany('CommentRates' ,models.Comment, {Rating : Number},{ reverse: 'Rater'});
-    models.User.hasMany('TranslationRates' ,models.Translation, {Rating : Number},{ reverse: 'Rater'});
 
     models.Book.hasMany('Categories' ,models.Category, {},{ reverse: 'Books'});
     models.Book.hasOne('Language' ,models.Language,{ reverse: 'Books'});
-    models.Book.hasMany('Translations' ,models.Translation,{},{ reverse: 'Book'});
-    models.Book.hasMany('Comments' ,models.Comment,{},{ reverse: 'Book'});
+    //models.Book.hasMany('Translations' ,models.Translation,{},{ reverse: 'Book'});
+    //models.Book.hasMany('Comments' ,models.Comment,{},{ reverse: 'Book'});
 
-    models.Translation.hasMany('Language' ,models.Language);
+    models.User.hasMany('TranslationRates' ,models.Translation, {Rating : Number},{ reverse: 'Rater'});
+    models.Translation.hasOne('Owner' ,models.User,{ reverse: 'Translations'});
+    models.Translation.hasOne('Book' ,models.Book,{ reverse: 'Translations'});
+    models.Translation.hasOne('Language' ,models.Language);
+
+    models.Comment.hasOne('Book' ,models.Book,{ reverse: 'Comments'});
+    models.Comment.hasOne('Owner' ,models.User,{ reverse: 'Comments'});
+    models.User.hasMany('CommentRates' ,models.Comment, {Rating : Number},{ reverse: 'Rater'});
 
     db.sync(function (err) {
         if (err) {
